@@ -10,11 +10,11 @@
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="Assets/Image(12).PNG" width="220" alt="Today">
+  <img src="public/Image (12).jpg" width="220" alt="Today">
   &nbsp;&nbsp;
-  <img src="Assets/Image(13).PNG" width="220" alt="Goals">
+  <img src="public/Image (13).jpg" width="220" alt="Goals">
   &nbsp;&nbsp;
-  <img src="Assets/Image(14).PNG" width="220" alt="Certs">
+  <img src="public/Image (14).jpg" width="220" alt="Certs">
 </p>
 ---
 
