@@ -29,12 +29,12 @@ import {
 // Name it something like "my-planner-tracker"
 // Replace these values with your tracker project's config
 const TRACKER_CONFIG = {
-  apiKey:            "REPLACE_WITH_YOUR_TRACKER_FIREBASE_API_KEY",
-  authDomain:        "REPLACE_WITH_YOUR_TRACKER_PROJECT_ID.firebaseapp.com",
-  projectId:         "REPLACE_WITH_YOUR_TRACKER_PROJECT_ID",
-  storageBucket:     "REPLACE_WITH_YOUR_TRACKER_PROJECT_ID.appspot.com",
-  messagingSenderId: "REPLACE_WITH_YOUR_MESSAGING_SENDER_ID",
-  appId:             "REPLACE_WITH_YOUR_TRACKER_APP_ID",
+  apiKey: "AIzaSyD6yrYOlPFKYPOlEsf44cu6ahunIk8FvWQ",
+  authDomain: "my-planner-tracker.firebaseapp.com",
+  projectId: "my-planner-tracker",
+  storageBucket: "my-planner-tracker.firebasestorage.app",
+  messagingSenderId: "530017281514",
+  appId: "1:530017281514:web:7db086d969413e45fe3e93"
 }
 
 // ── ANONYMOUS USER ID ──
