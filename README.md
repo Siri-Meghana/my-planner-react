@@ -3,7 +3,7 @@
 
 > A Progressive Web App built with React + Vite to manage your daily schedule, track certifications, log creative activities, and monitor health habits — all synced to the cloud in real time and installable on your phone like a native app.
 
-**🌐 Live Demo:** [your-app.vercel.app](https://your-app.vercel.app) &nbsp;|&nbsp; **Built by:** Siri Meghana
+**🌐 Live Demo:** [My Planner](https://my-planner-react.vercel.app/) &nbsp;|&nbsp; **Built by:** Siri Meghana
 
 ---
 
