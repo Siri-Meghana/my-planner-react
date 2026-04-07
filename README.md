@@ -1,4 +1,4 @@
-My Planner in React 📅
+My Planner React Tracker 📅
 Your day. Your way.
 > A Progressive Web App built with React + Vite to manage your daily schedule, track certifications, log creative activities, and monitor health habits — all synced to the cloud in real time and installable on your phone like a native app.
 🌐 Live Demo: your-app.vercel.app  |  Built by: Siri Meghana
@@ -7,9 +7,9 @@ Your day. Your way.
 > *(Add screenshots here after installing on your phone — one per tab)*
 > ```html
 > <p align="center">
->   <img src="screenshots/plan.png"  width="220" alt="Today">
->   <img src="screenshots/certs.png"  width="220" alt="Goals">
->   <img src="screenshots/goals.png"  width="220" alt="Certs">
+>   <img src="screenshots/today.png"  width="220" alt="Today">
+>   <img src="screenshots/art.png"  width="220" alt="Art">
+>   <img src="screenshots/health.png"  width="220" alt="Health">
 > </p>
 > ```
 ---
