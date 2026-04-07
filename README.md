@@ -308,9 +308,7 @@ Feel free to fork this project and make it your own. If you find a bug or have a
 
 ## 👩‍💻 About
 
-Built by **Siri Meghana** — currently completing the **Google Data Analytics** and **Meta Front-End Developer** certifications on Coursera, working as a Data Analysis and Events Assistant, and building things one component at a time.
-
-📬 [LinkedIn](https://linkedin.com) *(update this link)*
+Built by **Siri Meghana** - building things one component at a time.
 
 ---
 
