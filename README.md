@@ -290,16 +290,6 @@ This was a real bug found during testing: deleted items reappeared after reopeni
 
 ---
 
-## 🗺️ Roadmap
-
-- [ ] Firebase Authentication — tie data to an account, not just a device
-- [ ] TypeScript — type safety across all components  
-- [ ] Unit tests with Vitest + React Testing Library
-- [ ] Weekly review dashboard with charts
-- [ ] React Native version — publish to App Store and Google Play
-
----
-
 ## 🤝 Contributing
 
 Feel free to fork this project and make it your own. If you find a bug or have a suggestion, open an issue on GitHub.
