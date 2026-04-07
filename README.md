@@ -9,14 +9,14 @@
 
 ## 📸 Screenshots
 
-> *(Add screenshots here after installing on your phone — one per tab)*
-> ```html
-> <p align="center">
->   <img src="screenshots/today.png"  width="220" alt="Today">
->   <img src="screenshots/goals.png"  width="220" alt="Goals">
->   <img src="screenshots/certs.png"  width="220" alt="Certs">
-> </p>
-> ```
+<p align="center">
+  <img src="Assets/Image(12).PNG" width="220" alt="Today">
+  &nbsp;&nbsp;
+  <img src="Assets/Image(13).PNG" width="220" alt="Goals">
+  &nbsp;&nbsp;
+  <img src="Assets/Image(14).PNG" width="220" alt="Certs">
+</p>
+---
 
 ---
 
