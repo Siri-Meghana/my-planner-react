@@ -7,9 +7,9 @@ Your day. Your way.
 > *(Add screenshots here after installing on your phone — one per tab)*
 > ```html
 > <p align="center">
->   <img src="screenshots/today.png"  width="220" alt="Today">
->   <img src="screenshots/goals.png"  width="220" alt="Goals">
->   <img src="screenshots/certs.png"  width="220" alt="Certs">
+>   <img src="screenshots/Image(12).png"  width="220" alt="Today">
+>   <img src="screenshots/Image(13).png"  width="220" alt="Goals">
+>   <img src="screenshots/Image(14).png"  width="220" alt="Certs">
 > </p>
 > ```
 ---
