@@ -1,231 +1,234 @@
-# My Planner 📅
-### *Your day. Your way.*
-
-> A Progressive Web App built with React + Vite to manage daily schedules, track professional certifications, log creative activities, and monitor health habits — synced to the cloud in real time.
-
-**🌐 Live Demo:** [your-app.vercel.app](https://your-app.vercel.app) &nbsp;|&nbsp; **Built by:** Siri Meghana
-
+My Planner in React 📅
+Your day. Your way.
+> A Progressive Web App built with React + Vite to manage your daily schedule, track certifications, log creative activities, and monitor health habits — all synced to the cloud in real time and installable on your phone like a native app.
+🌐 Live Demo: your-app.vercel.app  |  Built by: Siri Meghana
 ---
-
-## 📸 Screenshots
-
-> Add screenshots here — one per tab (Today, Goals, Certs, Art, Health)
-> Recommended width: `<img src="screenshots/today.png" width="250">`
-
+📸 Screenshots
+> *(Add screenshots here after installing on your phone — one per tab)*
+> ```html
+> <p align="center">
+>   <img src="screenshots/today.png"  width="220" alt="Today">
+>   <img src="screenshots/goals.png"  width="220" alt="Goals">
+>   <img src="screenshots/certs.png"  width="220" alt="Certs">
+> </p>
+> ```
 ---
-
-## 💡 The Problem I Solved
-
-I was juggling multiple goals at once — professional certifications, creative hobbies like painting and calligraphy, daily health habits, and a work schedule. Every productivity app I tried was too generic or didn't let me manage all these areas together.
-
-So I built **My Planner** — a personal productivity app designed around my actual life, not a template. This is the React refactor of the original vanilla JS version, rebuilt with proper component architecture, state management, and modern tooling.
-
+💡 What Is This App?
+My Planner is a personal productivity app built to solve a real problem: managing career goals, creative hobbies, daily health habits, and a work schedule — all in one place, without the guilt of context-switching between them.
+Every user connects their own free Firebase account — so your data is always private and belongs only to you. No sign-ups, no subscriptions, no shared servers.
 ---
-
-## ✨ Features
-
-| Tab | What it does |
-|-----|-------------|
-| 📅 **Today** | Daily schedule with progress ring, streak tracker, and custom goals |
-| 🌟 **Goals** | Life goals organised by Career, Certifications, Travel, Personal Growth |
-| 🎯 **Certs** | Certification tracker with progress bars and milestone chips |
-| 🎨 **Art** | Weekly creative session tracker — clay, calligraphy, painting |
-| 💚 **Health** | Daily body basics checklist with 8 items |
-
-**All items are deletable** — default and custom. Deletions persist to Firebase so they stay gone across all devices and sessions.
-
+✨ Features
+Tab	What it does
+📅 Today	Daily schedule with a progress ring, streak tracker, and custom goals
+🌟 Goals	Life goals by category: Career, Certifications, Travel, Personal Growth
+🎯 Certs	Certification tracker with progress bars and milestone chips
+🎨 Art	Weekly creative session tracker
+💚 Health	Daily health habits checklist
+✅ Everything is deletable — default and custom items
+✅ All data syncs in real time across your devices
+✅ Works offline once installed
+✅ Installs on your home screen like a native app — no app store needed
 ---
-
-## 🛠️ Tech Stack
-
-| Technology | Purpose |
-|---|---|
-| **React 19** | UI library — component-based architecture |
-| **Vite** | Build tool — fast HMR, optimised production builds |
-| **useReducer + Context API** | Global state management without Redux |
-| **Firebase Firestore** | Real-time cloud database (NoSQL) |
-| **vite-plugin-pwa** | Makes the app installable on mobile, works offline |
-| **CSS Custom Properties** | Theming without a framework |
-| **GitHub + Vercel** | CI/CD pipeline — auto-deploys on every push |
-
+🚀 Getting Started — Complete Setup Guide
+Follow these steps in order. It takes about 10 minutes the first time.
 ---
-
-## 🏗️ Project Structure
-
+Step 1 — Get the App Running
+You have two options:
+Option A — Use the live hosted version (easiest)
+Just open the live demo link at the top of this page in your browser. Skip to Step 2.
+Option B — Run it yourself locally
+```bash
+git clone https://github.com/yourusername/my-planner-react-tracker.git
+cd my-planner-react-tracker
+npm install
+npm run dev
 ```
-src/
-├── context/
-│   └── PlannerContext.jsx   # Global state — useReducer + Context API
-├── data/
-│   └── defaults.js          # All default schedule blocks, health items, certs
-├── pages/
-│   ├── Today.jsx            # Daily schedule + streak tracker
-│   ├── Goals.jsx            # Life goals by category
-│   ├── Certs.jsx            # Certification progress tracker
-│   ├── Art.jsx              # Weekly creative sessions
-│   ├── Health.jsx           # Daily health habits
-│   └── Setup.jsx            # Firebase onboarding screen
-├── components/
-│   ├── Header.jsx           # Sticky header + tab nav + sync dot
-│   ├── BottomNav.jsx        # Mobile bottom navigation bar
-│   └── Modal.jsx            # Reusable add-item bottom sheet modal
-├── firebase.js              # Firebase init, read, write, realtime subscribe
-├── tracker.js               # Anonymous usage counter (no personal data stored)
-├── App.jsx                  # Root — routing, layout, FAB, sync flash
-├── main.jsx                 # React entry point
-└── index.css                # Global CSS with custom properties
-```
-
+Then open `http://localhost:5173` in your browser.
 ---
-
-## ⚛️ React Concepts Demonstrated
-
-This project was built to demonstrate real-world React patterns used in professional codebases:
-
-### State Management — `useReducer` + Context
-Instead of `useState` scattered across components, all state lives in a single reducer with typed actions:
-
+Step 2 — Create Your Free Firebase Project
+Firebase is Google's free cloud database. You need your own project so your data is private to you.
+> 💡 **Why do I need my own Firebase?**
+> Unlike most apps that store everyone's data on one server, My Planner gives each user their own private database. Nobody — not even the developer — can see your data.
+Follow these steps carefully:
+2a. Go to Firebase Console
+Open console.firebase.google.com in your browser
+Sign in with your Google account
+2b. Create a New Project
+Click the "Add project" button
+Type a name — e.g. `my-planner` (can be anything)
+On the next screen, you'll see a toggle for Google Analytics — you can leave it on or turn it off, it does not matter either way
+Click "Create project"
+Wait about 10 seconds for it to set up, then click "Continue"
+You should now see your project dashboard — it says "Hello, [your name]! Welcome to your Firebase project!"
+2c. Create Your Database
+This is where your planner data will be stored.
+In the left sidebar, hover over the icons until you see it expand — look for "Build" and click it to expand
+Click "Firestore Database"
+Click the "Create database" button
+A dialog appears — select "Start in test mode" (this allows the app to read and write your data)
+Click "Next"
+Choose a location — the default (`nam5` United States) is perfectly fine
+Click "Enable"
+Wait a few seconds while it sets up
+✅ Your database is ready.
+2d. Register Your App and Get Your Config Keys
+Now you need to tell Firebase about your web app so it gives you the connection keys.
+Click the gear icon ⚙️ in the top-left sidebar (next to "Project Overview")
+Click "Project settings"
+Scroll down to the "Your apps" section
+You will see a row of icons — click the web icon `</>` (it looks like HTML angle brackets)
+In the "App nickname" field, type anything — e.g. `my-planner-web`
+Leave the "Firebase Hosting" checkbox unchecked (you are using Vercel instead)
+Click "Register app"
+You will now see a code block that looks like this:
+```js
+const firebaseConfig = {
+  apiKey: "AIzaSyABC123...",
+  authDomain: "my-planner-abc.firebaseapp.com",
+  projectId: "my-planner-abc",
+  storageBucket: "my-planner-abc.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123..."
+};
+```
+You need three values from this:
+`apiKey`
+`projectId`
+`appId`
+📋 Copy these three values somewhere — you will need them in Step 3.
+Click "Continue to console" — you are done with Firebase setup.
+---
+Step 3 — Connect Firebase to the App
+Open the app in your browser (either the live URL or your local `localhost:5173`)
+You will see the setup screen asking for your Firebase values
+Paste in your three values:
+apiKey — paste the long string starting with `AIzaSy...`
+projectId — paste your project ID (e.g. `my-planner-abc`)
+appId — paste the full app ID string
+Click "Connect & Start My Planner →"
+If everything is correct, the app will load and show your empty planner. The small dot in the top-right corner will turn green — this means you are connected and syncing. ✅
+> ⚠️ **Getting an error?** Double-check that you copied the values correctly with no extra spaces. The `apiKey` should start with `AIzaSy`. The `projectId` should match the name you gave your project.
+---
+Step 4 — Install on Your Phone (Optional but Recommended)
+Once the app is working in your browser, you can install it on your home screen so it opens like a real app — no browser bar, works offline.
+On iPhone (must use Safari):
+Open your app URL in Safari — Chrome will not show the install option on iPhone
+Tap the Share button at the bottom of the screen (the box with an arrow pointing up)
+Scroll down in the share sheet and tap "Add to Home Screen"
+Change the name to `My Planner` if you like
+Tap "Add" in the top right
+On Android (use Chrome):
+Open your app URL in Chrome
+Tap the three dots menu (top right)
+Tap "Add to Home Screen" or "Install App"
+Tap "Add"
+Your app icon will now appear on your home screen. Tap it to open — it looks and feels exactly like a native app. 🎉
+---
+Step 5 — Set Up Usage Tracking (For Developers Only)
+> ⚠️ **This step is only for the person hosting this app.** Regular users can skip this entirely.
+The app includes an anonymous counter in `src/tracker.js` that records how many people are using it — no personal data, just a number. To activate it:
+Create a second Firebase project at console.firebase.google.com — name it `my-planner-tracker`
+Create a Firestore database in test mode (same steps as above)
+Register a web app and copy the config values
+Open `src/tracker.js` in your code editor
+Replace all the `REPLACE_WITH_...` placeholder values with your tracker project's config
+Save, commit, and push to GitHub — Vercel will redeploy automatically
+Where to view your user count:
+Go to your tracker Firebase project → Firestore Database
+Open the `stats` collection → `totals` document
+You will see `totalInstalls` — this is your lifetime user count
+The `daily` collection shows how many users opened the app each day
+---
+🛠️ Tech Stack
+Technology	Purpose
+React 19	UI library — component-based architecture
+Vite	Build tool — fast development, optimised production builds
+useReducer + Context API	Global state management (same pattern as Redux, no library needed)
+Firebase Firestore	Real-time cloud NoSQL database — one per user
+vite-plugin-pwa	Makes the app installable on mobile, offline-capable
+CSS Custom Properties	Theming without a CSS framework
+GitHub + Vercel	CI/CD pipeline — auto-deploys on every push to main
+---
+🏗️ Project Structure
+```
+my-planner-react-tracker/
+├── src/
+│   ├── context/
+│   │   └── PlannerContext.jsx   # Global state — useReducer + Context API
+│   ├── data/
+│   │   └── defaults.js          # All default schedule, health, cert data
+│   ├── pages/
+│   │   ├── Today.jsx            # Daily schedule + streak tracker
+│   │   ├── Goals.jsx            # Life goals by category
+│   │   ├── Certs.jsx            # Certification progress tracker
+│   │   ├── Art.jsx              # Weekly creative sessions
+│   │   ├── Health.jsx           # Daily health habits
+│   │   └── Setup.jsx            # Firebase onboarding screen
+│   ├── components/
+│   │   ├── Header.jsx           # Sticky header, tab nav, sync dot
+│   │   ├── BottomNav.jsx        # Mobile bottom navigation
+│   │   └── Modal.jsx            # Reusable add-item bottom sheet
+│   ├── firebase.js              # Firebase init, read, write, subscribe
+│   ├── tracker.js               # Anonymous usage counter
+│   ├── App.jsx                  # Root — routing, layout, FAB
+│   ├── main.jsx                 # React entry point
+│   └── index.css                # Global styles with CSS custom properties
+├── index.html                   # HTML entry point with PWA meta tags
+├── vite.config.js               # Vite + PWA plugin config
+└── package.json
+```
+---
+⚛️ React Concepts Used
 ```jsx
-// PlannerContext.jsx
+// useReducer — predictable state with typed actions
 function reducer(state, action) {
   switch (action.type) {
-    case 'TOGGLE_BLOCK':  return { ...state, daily: { ...state.daily, [TODAY]: { ...day, [action.id]: !day[action.id] } } }
-    case 'DELETE_CERT':   const { [action.id]: _, ...rest } = state.certs; return { ...state, certs: rest }
-    case 'ADD_GOAL':      return { ...state, goals: { ...state.goals, [action.cat]: [...items, action.item] } }
+    case 'TOGGLE_BLOCK': return { ...state, daily: { ...state.daily, [TODAY]: { ...day, [id]: !day[id] } } }
+    case 'DELETE_CERT':  const { [id]: _, ...rest } = state.certs; return { ...state, certs: rest }
+    case 'ADD_GOAL':     return { ...state, goals: { ...state.goals, [cat]: [...items, newItem] } }
     // 15 action types total
   }
 }
-```
 
-This is the same pattern as Redux — just without the library overhead.
-
-### Component Composition
-Each page is a self-contained component. Shared UI (Modal, Header, BottomNav) are extracted into `/components` and reused across pages without duplication.
-
-### Side Effects — `useEffect`
-Used for: Firebase auto-connect on mount, real-time subscription cleanup, header clock tick, FAB event listener registration/cleanup.
-
-```jsx
-// Proper cleanup prevents memory leaks
+// useEffect with proper cleanup — prevents memory leaks
 useEffect(() => {
   const handler = () => setShowModal(true)
   window.addEventListener('fab-click', handler)
-  return () => window.removeEventListener('fab-click', handler) // cleanup
+  return () => window.removeEventListener('fab-click', handler)
 }, [])
 ```
-
-### Derived State
-Progress percentage, streak count, and visible items (after filtering hidden[]) are all computed from state — never stored separately. One source of truth.
-
 ---
+🔥 Why Full Overwrite Instead of Merge in Firebase
+```js
+// ❌ merge: true — never deletes existing keys, only adds/updates
+await setDoc(doc(db, 'myplanner', 'data'), S, { merge: true })
 
-## 🔥 Firebase Architecture
-
-All user data is stored in the user's **own** Firebase project — the app never sees anyone else's data:
-
+// ✅ Full overwrite — deletions actually persist
+await setDoc(doc(db, 'myplanner', 'data'), S)
 ```
-myplanner/data  →  {
-  daily:   { "2026-04-07": { b1: true, b3: true, custom: [...] } },
-  health:  { "2026-04-07": { h0: true, h3: true } },
-  certs:   { ga: { pct: 40, ms: { 0: true } }, meta: { pct: 0 } },
-  goals:   { career: [...], life: [...], personal: [...] },
-  art:     { "2026-03-31": [{ id, emoji, title, done }] },
-  streak:  { days: { "2026-04-07": true } },
-  hidden:  { blocks: ["b4"], health: [], certs: [] }
-}
-```
-
-**Why `setDoc` without `merge: true`?**
-Firebase's `merge: true` never removes existing keys — it only adds or updates. Deletions require a full overwrite. This was a real bug found during testing and fixed in v2.
-
+This was a real bug found during testing: deleted items reappeared after reopening the app because `merge: true` kept the old data in Firebase. Switching to a full overwrite fixed it.
 ---
-
-## 📊 Anonymous Usage Tracking
-
-The app includes an opt-in anonymous counter in `tracker.js` that records:
-- **Total installs** — how many devices have ever opened the app
-- **Daily active users** — how many unique devices open it per day
-
-**What it does NOT store:** names, emails, IP addresses, device info, or any identifiable data. Each device gets a random anonymous ID stored only on that device. The counter lives in a separate Firebase project controlled by the developer.
-
-This is GDPR-safe by design — no personal data is collected or transmitted.
-
+🔒 Privacy
+Each user's data lives in their own Firebase project — completely isolated
+The anonymous tracker records only a count — no names, emails, or IP addresses
+Each device gets a random ID like `u_x7k2m` stored only on that device
+Fully GDPR-safe by design
 ---
-
-## 🔄 Version History
-
-| Version | Changes |
-|---|---|
-| **v1** | Vanilla JS single-file app with Firebase |
-| **v2** | Bug fixes: cert deletion (Firebase merge issue), dynamic rendering, hidden[] array |
-| **v3 (this)** | Full React refactor — components, useReducer, Context API, Vite, PWA plugin |
-
+🗺️ Roadmap
+[ ] Firebase Authentication — tie data to an account, not just a device
+[ ] TypeScript — type safety across all components
+[ ] Unit tests with Vitest + React Testing Library
+[ ] Weekly review dashboard with charts
+[ ] React Native version — publish to App Store and Google Play
 ---
-
-## 🚀 Getting Started
-
-```bash
-# Clone and install
-git clone https://github.com/yourusername/my-planner-react.git
-cd my-planner-react
-npm install
-
-# Run locally
-npm run dev
-
-# Build for production
-npm run build
-```
-
-### Setting Up Firebase
-
-1. Go to [console.firebase.google.com](https://console.firebase.google.com)
-2. Create a new project → **Firestore Database** → Create → Test mode
-3. **Project Settings → Web app** (`</>`) → Register → copy `apiKey`, `projectId`, `appId`
-4. Open the app → enter your 3 values → **Connect & Start**
-
-### Setting Up Usage Tracking (Optional)
-
-1. Create a **second** Firebase project for tracking (e.g. `my-planner-tracker`)
-2. Create a Firestore database in test mode
-3. Open `src/tracker.js` and replace the `TRACKER_CONFIG` values with your tracker project's config
-4. Deploy — that's it. View your counts in the Firebase console under the `stats/totals` document
-
-### Deploy to Vercel
-
-1. Push to GitHub → go to [vercel.com](https://vercel.com) → Import repo
-2. Leave all settings default → Deploy
-3. Open your Vercel URL on mobile → **Share → Add to Home Screen**
-
+🤝 Contributing
+Feel free to fork this project and make it your own. If you find a bug or have a suggestion, open an issue on GitHub.
 ---
-
-## 🗺️ Roadmap
-
-- [ ] Firebase Authentication — tie data to an account, not a device
-- [ ] TypeScript migration — type safety across components
-- [ ] Unit tests with Vitest + React Testing Library
-- [ ] Weekly review dashboard — charts, progress summaries
-- [ ] React Native conversion — publish to App Store and Google Play
-
+👩‍💻 About
+Built by Siri Meghana — building things one component at a time.
 ---
-
-## 🧠 What I Learned Building This
-
-**v1 → v3 taught me:**
-- The difference between `merge: true` and full overwrite in Firestore (found via a real production bug)
-- Why `useReducer` scales better than `useState` once you have 10+ state updates
-- How `useEffect` cleanup prevents memory leaks in real applications
-- That dynamic JS rendering is always better than hardcoded HTML for anything that needs to be deletable
-- How to design for privacy by default — anonymous tracking without collecting personal data
-
----
-
-## 👩‍💻 About
-
-Built by **Siri Meghana** — currently completing the **Google Data Analytics** and **Meta Front-End Developer** certifications on Coursera, while working as a Data Analysis and Events Assistant.
-
-📬 [LinkedIn](https://linkedin.com) *(update this link)*
-
----
-
-<p align="center">Built with focus, code, and calligraphy breaks ✍️</p>
+<p align="center">
+  Built with React, Firebase, and calligraphy breaks ✍️
+  <br/>
+  <sub>If this helped you — give it a ⭐ on GitHub</sub>
+</p>
