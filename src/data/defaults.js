@@ -14,15 +14,15 @@ export const WEEK = getWeekKey()
 export const DEFAULT_BLOCKS = [
   { id: 'b1',  type: 'cook',   emoji: '🍳', time: '7:30 AM · 30 min',           title: 'Cook breakfast + pack lunch',    sub: 'Both at once — efficient and calm.' },
   { id: 'b2',  type: 'health', emoji: '🥣', time: '8:00 AM · 20 min',           title: 'Eat breakfast',                   sub: 'Sit down. No phone. Start calm.' },
-  { id: 'b3',  type: 'career', emoji: '📊', time: '8:20 AM · 75 min',           title: 'Study — Google Data Analytics',   sub: 'One module. Focused. Your future, daily.' },
+  { id: 'b3',  type: 'career', emoji: '📊', time: '8:20 AM · 75 min',           title: 'Study',                           sub: 'One module. Focused. Your future, daily.' },
   { id: 'b4',  type: 'rest',   emoji: '🪥', time: '9:35 AM · 25 min',           title: 'Get ready for work',              sub: "Already studied. That's a win." },
   { id: 'b5',  type: 'walk',   emoji: '🚶', time: '10:00 AM · 30 min',          title: 'Walk to work',                    sub: 'Fresh air. Move. Optional: course audio.' },
-  { id: 'b6',  type: 'work',   emoji: '💼', time: '10:30 AM – 4:00 PM · 6 hrs', title: 'Work — Data Analysis and Events', sub: 'Notice tools and patterns. Eat your packed lunch.' },
+  { id: 'b6',  type: 'work',   emoji: '💼', time: '10:30 AM – 4:00 PM · 6 hrs', title: 'Office Work',                     sub: 'Notice tools and patterns. Eat your packed lunch.' },
   { id: 'b7',  type: 'walk',   emoji: '🚶', time: '4:00 PM · 30 min',           title: 'Walk home',                       sub: 'Decompress. Let work stay at work.' },
   { id: 'b8',  type: 'art',    emoji: '🎨', time: '4:30 PM · 45 min',           title: 'Creative time',                   sub: 'Clay, calligraphy, painting. First thing home.' },
   { id: 'b9',  type: 'cook',   emoji: '🍲', time: '5:15 PM · 40 min',           title: 'Cook dinner',                     sub: 'Music on. A ritual, not a chore.' },
   { id: 'b10', type: 'health', emoji: '🍽', time: '5:55 PM · 25 min',           title: 'Eat dinner',                      sub: 'Proper meal. Sitting down. Non-negotiable.' },
-  { id: 'b11', type: 'career', emoji: '💻', time: '6:20 PM · 60 min',           title: 'Practice and cert projects',      sub: 'Apply what you studied. Build something small.' },
+  { id: 'b11', type: 'career', emoji: '💻', time: '6:20 PM · 60 min',           title: 'Study and Practice',             sub: 'Apply what you studied. Build something small.' },
   { id: 'b12', type: 'rest',   emoji: '🛋', time: '7:30 PM · 90 min',           title: 'Free time',                       sub: 'Watch, call someone, do nothing. Earned.' },
   { id: 'b13', type: 'rest',   emoji: '🌙', time: '9:30 PM · 20 min',           title: 'Wind down and plan tomorrow',     sub: 'Write one priority. Prep for morning. Rest.' },
 ]
@@ -43,8 +43,8 @@ export const DEFAULT_HEALTH = [
 ]
 
 export const DEFAULT_ART = [
-  { id: 'a0', emoji: '🏺', title: 'Clay work',           sub: 'Tuesday and Thursday 4:30 PM', done: false },
-  { id: 'a1', emoji: '✍',  title: 'Calligraphy',          sub: 'Saturday morning, free flow',  done: false },
+  { id: 'a0', emoji: '🏺', title: 'Read a book',           sub: 'Tuesday and Thursday 4:30 PM', done: false },
+  { id: 'a1', emoji: '✍',  title: 'Listen to Music',          sub: 'Saturday morning, free flow',  done: false },
   { id: 'a2', emoji: '🖌',  title: 'Painting',             sub: 'Any evening you feel called',  done: false },
   { id: 'a3', emoji: '🎨', title: 'Free create — Sunday', sub: 'No rules. Whatever you feel.', done: false },
 ]
