@@ -162,19 +162,22 @@ export default function Today() {
       <div className="streak-row">
         <div className="streak-left">
           <div className="s-count">{streakCount}</div>
-          <div className="s-lbl">day streak 🔥</div>
+          <div className="s-lbl">days completed 🔥</div>
         </div>
-        <div className="streak-days">
-          {weekDays.map(({ label, date }) => (
-            <div
-              key={date}
-              className={`s-day${streakDays[date] ? ' active' : ''}`}
-              onClick={() => dispatch({ type: 'TOGGLE_STREAK', date })}
-            >
-              <span className="d-name">{label}</span>
-              <span className="d-dot" />
-            </div>
-          ))}
+        <div className="streak-right">
+          <div className="streak-hint">Tap a day when you complete your schedule</div>
+          <div className="streak-days">
+            {weekDays.map(({ label, date }) => (
+              <div
+                key={date}
+                className={`s-day${streakDays[date] ? ' active' : ''}`}
+                onClick={() => dispatch({ type: 'TOGGLE_STREAK', date })}
+              >
+                <span className="d-name">{label}</span>
+                <span className="d-dot" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
