@@ -3,21 +3,38 @@ import { usePlanner } from '../context/PlannerContext'
 import Modal from '../components/Modal'
 
 const SECTIONS = [
-  { key: 'career',   label: 'Career',          empty: 'Add a career goal — job target, skill, portfolio piece' },
-  { key: 'cert',     label: 'Certifications',   empty: 'Add a new certification or course goal' },
-  { key: 'life',     label: 'Travel & Life',    empty: 'Add a travel destination or life goal' },
-  { key: 'personal', label: 'Personal Growth',  empty: 'Add a habit, skill or personal milestone' },
+  { key: 'career',   label: 'Career',         empty: 'Add a career goal — job target, skill, portfolio piece' },
+  { key: 'cert',     label: 'Certifications',  empty: 'Add a new certification or course goal' },
+  { key: 'life',     label: 'Travel & Life',   empty: 'Add a travel destination or life goal' },
+  { key: 'personal', label: 'Personal Growth', empty: 'Add a habit, skill or personal milestone' },
 ]
 
-const CAT_KEY_MAP = { 'Career': 'career', 'Travel & Life': 'life', 'Personal Growth': 'personal' }
+// Fix Bug #7: added 'Certifications' → 'cert' mapping
+const CAT_KEY_MAP = {
+  'Career':         'career',
+  'Certifications': 'cert',
+  'Travel & Life':  'life',
+  'Personal Growth':'personal'
+}
 
 export default function Goals() {
   const { state, dispatch } = usePlanner()
-  const [modal, setModal] = useState(null) // { cat: string }
+  const [modal, setModal]   = useState(null)
+
+  // Fix Bug #2: filter FAB event by page name
+  useEffect(() => {
+    const handler = (e) => { if (e.detail === 'goals') setModal({ cat: 'Career' }) }
+    window.addEventListener('fab-click', handler)
+    return () => window.removeEventListener('fab-click', handler)
+  }, [])
 
   function handleAddGoal({ emoji, name, sub, cat }) {
     const catKey = CAT_KEY_MAP[cat] || 'personal'
-    dispatch({ type: 'ADD_GOAL', cat: catKey, item: { id: 'g' + Date.now(), emoji, name, sub, done: false } })
+    dispatch({
+      type: 'ADD_GOAL',
+      cat:  catKey,
+      item: { id: 'g' + Date.now(), emoji, name, sub, done: false }
+    })
   }
 
   return (
@@ -39,8 +56,11 @@ export default function Goals() {
               {items.length === 0
                 ? <div className="empty-state"><div className="e-emoji">🌱</div>{empty}</div>
                 : items.map(g => (
-                    <div key={g.id} className={`goal-item${g.done ? ' done-g' : ''} fade-up`}
-                      onClick={() => dispatch({ type: 'TOGGLE_GOAL', cat: key, id: g.id })}>
+                    <div
+                      key={g.id}
+                      className={`goal-item${g.done ? ' done-g' : ''} fade-up`}
+                      onClick={() => dispatch({ type: 'TOGGLE_GOAL', cat: key, id: g.id })}
+                    >
                       <div className="g-emoji">{g.emoji}</div>
                       <div className="g-body">
                         <div className="g-cat">{label}</div>
@@ -48,7 +68,13 @@ export default function Goals() {
                         {g.sub && <div className="g-sub">{g.sub}</div>}
                       </div>
                       <div className="g-check">✓</div>
-                      <button className="g-del" onClick={e => { e.stopPropagation(); dispatch({ type: 'DELETE_GOAL', cat: key, id: g.id }) }}>✕</button>
+                      <button
+                        className="g-del"
+                        onClick={e => {
+                          e.stopPropagation()
+                          dispatch({ type: 'DELETE_GOAL', cat: key, id: g.id })
+                        }}
+                      >✕</button>
                     </div>
                   ))
               }
@@ -60,7 +86,12 @@ export default function Goals() {
       <div className="quote"><p>"A goal without a plan is just a wish. You have both."</p></div>
 
       {modal && (
-        <Modal mode="goal" defaultCat={modal.cat} onClose={() => setModal(null)} onSave={handleAddGoal} />
+        <Modal
+          mode="goal"
+          defaultCat={modal.cat}
+          onClose={() => setModal(null)}
+          onSave={handleAddGoal}
+        />
       )}
     </div>
   )
