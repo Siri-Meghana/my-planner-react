@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react'
 
 const TABS = [
-  { id: 'today',  label: 'Today' },
-  { id: 'goals',  label: 'Goals' },
-  { id: 'certs',  label: 'Certs' },
-  { id: 'art',    label: 'Art' },
+  { id: 'today',  label: 'Today'  },
+  { id: 'goals',  label: 'Goals'  },
+  { id: 'certs',  label: 'Certs'  },
+  { id: 'art',    label: 'Art'    },
   { id: 'health', label: 'Health' },
 ]
 
-export default function Header({ activePage, onPageChange, syncStatus }) {
+export default function Header({ activePage, onPageChange, syncStatus, isDark, onToggleTheme }) {
   const [timeStr, setTimeStr] = useState('')
   const [dateStr, setDateStr] = useState('')
 
   useEffect(() => {
     function tick() {
-      const now = new Date()
+      const now    = new Date()
       const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
       setDateStr(`${days[now.getDay()].slice(0,3)} ${now.getDate()} ${months[now.getMonth()]}`)
@@ -25,7 +25,11 @@ export default function Header({ activePage, onPageChange, syncStatus }) {
     return () => clearInterval(id)
   }, [])
 
-  const syncClass = syncStatus === 'live' ? 'sync-dot live' : syncStatus === 'saving' ? 'sync-dot saving' : 'sync-dot'
+  const syncClass = syncStatus === 'live'
+    ? 'sync-dot live'
+    : syncStatus === 'saving'
+    ? 'sync-dot saving'
+    : 'sync-dot'
 
   return (
     <header className="app-header">
@@ -35,13 +39,25 @@ export default function Header({ activePage, onPageChange, syncStatus }) {
           <div className="header-sub">{timeStr}</div>
         </div>
         <div className="header-right">
+          {/* Dark mode toggle */}
+          <button
+            className="theme-toggle"
+            onClick={onToggleTheme}
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDark ? '☀️' : '🌙'}
+          </button>
           <div className={syncClass} title="Sync status" />
           <div className="date-chip">{dateStr}</div>
         </div>
       </div>
       <div className="tabs">
         {TABS.map(t => (
-          <button key={t.id} className={`tab${activePage === t.id ? ' active' : ''}`} onClick={() => onPageChange(t.id)}>
+          <button
+            key={t.id}
+            className={`tab${activePage === t.id ? ' active' : ''}`}
+            onClick={() => onPageChange(t.id)}
+          >
             {t.label}
           </button>
         ))}
