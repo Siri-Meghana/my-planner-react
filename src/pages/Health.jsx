@@ -1,8 +1,11 @@
 import { usePlanner } from '../context/PlannerContext'
-import { DEFAULT_HEALTH, TODAY } from '../data/defaults'
+import { DEFAULT_HEALTH, getToday } from '../data/defaults'
 
 export default function Health() {
   const { state, dispatch } = usePlanner()
+
+  // Always get fresh date — fixes stale TODAY bug
+  const TODAY = getToday()
 
   const hiddenHealth = state.hidden?.health || []
   const dayHealth    = state.health?.[TODAY] || {}
@@ -16,8 +19,7 @@ export default function Health() {
         <h3>🌿 Hair and skipped meals</h3>
         <p>
           Stress raises cortisol which disrupts hair growth.{' '}
-          <strong>Eating regularly + walking daily + sleeping well</strong> is the most
-          direct fix right now.
+          <strong>Eating regularly + walking daily + sleeping well</strong> is the most direct fix.
         </p>
       </div>
 
@@ -32,17 +34,15 @@ export default function Health() {
           >
             <div className="hc-top">
               <div className="hc-emoji">{h.emoji}</div>
+              {/* Fix Bug #10: delete button now hidden until hover */}
               <button
                 className="hc-del"
                 onClick={e => {
                   e.stopPropagation()
-                  if (confirm('Remove this health item?')) {
+                  if (confirm('Remove this health item?'))
                     dispatch({ type: 'HIDE_HEALTH', id: h.id })
-                  }
                 }}
-              >
-                ✕
-              </button>
+              >✕</button>
             </div>
             <div className="hc-title">{h.title}</div>
             <div className="hc-sub">{h.sub}</div>
