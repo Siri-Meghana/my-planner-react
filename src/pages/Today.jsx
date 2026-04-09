@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { usePlanner } from '../context/PlannerContext'
-import { DEFAULT_BLOCKS, MORNING_IDS, WORK_IDS, EVENING_IDS, TODAY, WEEK } from '../data/defaults'
+import { DEFAULT_BLOCKS, MORNING_IDS, WORK_IDS, EVENING_IDS, getToday, getWeekKey } from '../data/defaults'
 import Modal from '../components/Modal'
 
 function getGreeting() {
@@ -16,9 +16,9 @@ function getGreeting() {
 
 function getWeekDays() {
   const labels = ['M','T','W','T','F','S','S']
-  const today = new Date()
-  const dow = today.getDay()
-  const mon = new Date(today)
+  const today  = new Date()
+  const dow    = today.getDay()
+  const mon    = new Date(today)
   mon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
   return labels.map((label, i) => {
     const d = new Date(mon)
@@ -46,7 +46,10 @@ function ProgressRing({ pct }) {
 
 function Block({ block, done, onTap, onHide }) {
   return (
-    <div className={`block ${block.type}${done ? ' done' : ''} fade-up`} onClick={() => onTap(block.id)}>
+    <div
+      className={`block ${block.type}${done ? ' done' : ''} fade-up`}
+      onClick={() => onTap(block.id)}
+    >
       <div className="b-emoji">{block.emoji}</div>
       <div className="b-body">
         <div className="b-time">{block.time}</div>
@@ -61,7 +64,10 @@ function Block({ block, done, onTap, onHide }) {
 
 function CustomBlock({ item, onTap, onDelete }) {
   return (
-    <div className={`block custom${item.done ? ' done' : ''} fade-up`} onClick={() => onTap(item.id)}>
+    <div
+      className={`block custom${item.done ? ' done' : ''} fade-up`}
+      onClick={() => onTap(item.id)}
+    >
       <div className="b-emoji">{item.emoji}</div>
       <div className="b-body">
         {item.time && <div className="b-time">{item.time}</div>}
@@ -78,25 +84,28 @@ export default function Today() {
   const { state, dispatch } = usePlanner()
   const [showModal, setShowModal] = useState(false)
 
-  // Listen for FAB button click from App.jsx
+  // Fix Bug #2: filter FAB event by page name so only Today responds
   useEffect(() => {
-    const handler = () => setShowModal(true)
-    window.addEventListener("fab-click", handler)
-    return () => window.removeEventListener("fab-click", handler)
+    const handler = (e) => { if (e.detail === 'today') setShowModal(true) }
+    window.addEventListener('fab-click', handler)
+    return () => window.removeEventListener('fab-click', handler)
   }, [])
-  const greeting = getGreeting()
-  const weekDays = getWeekDays()
 
+  // Always get fresh date — fixes Bug #1 (stale TODAY constant)
+  const TODAY = getToday()
+
+  const greeting     = getGreeting()
+  const weekDays     = getWeekDays()
   const hiddenBlocks = state.hidden?.blocks || []
-  const dayData = state.daily[TODAY] || {}
-  const streakDays = state.streak?.days || {}
+  const dayData      = state.daily[TODAY] || {}
+  const streakDays   = state.streak?.days || {}
 
   const visibleBlocks = DEFAULT_BLOCKS.filter(b => !hiddenBlocks.includes(b.id))
   const customBlocks  = dayData.custom || []
   const totalBlocks   = visibleBlocks.length + customBlocks.length
-  const doneCount     = visibleBlocks.filter(b => !!dayData[b.id]).length + customBlocks.filter(c => c.done).length
+  const doneCount     = visibleBlocks.filter(b => !!dayData[b.id]).length
+                      + customBlocks.filter(c => c.done).length
   const pct = totalBlocks ? Math.round((doneCount / totalBlocks) * 100) : 0
-
   const streakCount = Object.values(streakDays).filter(Boolean).length
 
   function renderSection(ids, label) {
@@ -108,9 +117,14 @@ export default function Today() {
         <div className="block-list">
           {blocks.map(b => (
             <Block
-              key={b.id} block={b} done={!!dayData[b.id]}
+              key={b.id}
+              block={b}
+              done={!!dayData[b.id]}
               onTap={id => dispatch({ type: 'TOGGLE_BLOCK', id })}
-              onHide={id => { if (confirm('Remove this block from your schedule?')) dispatch({ type: 'HIDE_BLOCK', id }) }}
+              onHide={id => {
+                if (confirm('Remove this block from your schedule?'))
+                  dispatch({ type: 'HIDE_BLOCK', id })
+              }}
             />
           ))}
         </div>
@@ -119,7 +133,10 @@ export default function Today() {
   }
 
   function handleAddCustom({ emoji, name, sub, time }) {
-    dispatch({ type: 'ADD_CUSTOM_BLOCK', item: { id: 'cu' + Date.now(), emoji, name, sub, time, done: false } })
+    dispatch({
+      type: 'ADD_CUSTOM_BLOCK',
+      item: { id: 'cu' + Date.now(), emoji, name, sub, time, done: false }
+    })
   }
 
   return (
@@ -134,8 +151,8 @@ export default function Today() {
           </div>
         </div>
         <div className="stat-row">
-          <div className="stat"><div className="stat-v" style={{color:'var(--gold)'}}>2h</div><div className="stat-l">Study</div></div>
-          <div className="stat"><div className="stat-v" style={{color:'var(--sage)'}}>45m</div><div className="stat-l">Art</div></div>
+          <div className="stat"><div className="stat-v" style={{color:'var(--teal)'}}>2h</div><div className="stat-l">Study</div></div>
+          <div className="stat"><div className="stat-v" style={{color:'var(--rose)'}}>45m</div><div className="stat-l">Art</div></div>
           <div className="stat"><div className="stat-v" style={{color:'var(--walk)'}}>1h</div><div className="stat-l">Walk</div></div>
           <div className="stat"><div className="stat-v" style={{color:'var(--cook)'}}>1.5h</div><div className="stat-l">Cook</div></div>
         </div>
@@ -149,8 +166,11 @@ export default function Today() {
         </div>
         <div className="streak-days">
           {weekDays.map(({ label, date }) => (
-            <div key={date} className={`s-day${streakDays[date] ? ' active' : ''}`}
-              onClick={() => dispatch({ type: 'TOGGLE_STREAK', date })}>
+            <div
+              key={date}
+              className={`s-day${streakDays[date] ? ' active' : ''}`}
+              onClick={() => dispatch({ type: 'TOGGLE_STREAK', date })}
+            >
               <span className="d-name">{label}</span>
               <span className="d-dot" />
             </div>
@@ -173,18 +193,23 @@ export default function Today() {
       </div>
       <div className="block-list">
         {customBlocks.length === 0 && (
-          <div className="empty-state"><div className="e-emoji">✏️</div>Tap + to add your own daily goals</div>
+          <div className="empty-state">
+            <div className="e-emoji">✏️</div>Tap + to add your own daily goals
+          </div>
         )}
         {customBlocks.map(item => (
           <CustomBlock
-            key={item.id} item={item}
-            onTap={id => dispatch({ type: 'TOGGLE_CUSTOM_BLOCK', id })}
+            key={item.id}
+            item={item}
+            onTap={id  => dispatch({ type: 'TOGGLE_CUSTOM_BLOCK', id })}
             onDelete={id => dispatch({ type: 'DELETE_CUSTOM_BLOCK', id })}
           />
         ))}
       </div>
 
-      {showModal && <Modal mode="daily" onClose={() => setShowModal(false)} onSave={handleAddCustom} />}
+      {showModal && (
+        <Modal mode="daily" onClose={() => setShowModal(false)} onSave={handleAddCustom} />
+      )}
     </div>
   )
 }
