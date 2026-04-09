@@ -1,34 +1,35 @@
 import { useState, useEffect } from 'react'
 import { usePlanner } from '../context/PlannerContext'
-import { WEEK } from '../data/defaults'
+import { getWeekKey } from '../data/defaults'
 import Modal from '../components/Modal'
 
 export default function Art() {
   const { state, dispatch } = usePlanner()
   const [showModal, setShowModal] = useState(false)
 
+  // Fix Bug #2: filter FAB event by page name
   useEffect(() => {
-    const handler = () => setShowModal(true)
+    const handler = (e) => { if (e.detail === 'art') setShowModal(true) }
     window.addEventListener('fab-click', handler)
     return () => window.removeEventListener('fab-click', handler)
   }, [])
 
-  // Initialise this week's art slots if first visit
-  useEffect(() => {
-    dispatch({ type: 'INIT_ART_WEEK' })
-  }, [])
+  // Fix Bug #11: removed redundant INIT_ART_WEEK dispatch — connectFirebase already handles it
 
+  // Always get fresh week key
+  const WEEK  = getWeekKey()
   const slots = state.art?.[WEEK] || []
 
   function handleAddArt({ emoji, name, sub }) {
-    dispatch({ type: 'ADD_ART', item: { id: 'a' + Date.now(), emoji, title: name, sub, done: false } })
+    dispatch({
+      type: 'ADD_ART',
+      item: { id: 'a' + Date.now(), emoji, title: name, sub, done: false }
+    })
   }
 
   return (
     <div>
-      <div className="sec" style={{ paddingTop: 18 }}>
-        Creative Practice
-      </div>
+      <div className="sec" style={{ paddingTop: 18 }}>Creative Practice</div>
 
       <div className="art-hero">
         <h2>Art is not a reward.<br />It's recovery.</h2>
@@ -63,9 +64,7 @@ export default function Art() {
             <button
               className="as-del"
               onClick={e => { e.stopPropagation(); dispatch({ type: 'DELETE_ART', id: item.id }) }}
-            >
-              ✕
-            </button>
+            >✕</button>
           </div>
         ))}
       </div>
@@ -75,11 +74,7 @@ export default function Art() {
       </div>
 
       {showModal && (
-        <Modal
-          mode="art"
-          onClose={() => setShowModal(false)}
-          onSave={handleAddArt}
-        />
+        <Modal mode="art" onClose={() => setShowModal(false)} onSave={handleAddArt} />
       )}
     </div>
   )
