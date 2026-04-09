@@ -1,27 +1,33 @@
 import { createContext, useContext, useReducer, useEffect, useRef } from 'react'
 import { initFirebase, loadData, saveData, subscribeToData } from '../firebase'
-import { INITIAL_STATE, TODAY, WEEK, DEFAULT_ART } from '../data/defaults'
+import { INITIAL_STATE, DEFAULT_ART, getToday, getWeekKey } from '../data/defaults'
 
 const PlannerContext = createContext(null)
 
+// Deep merge — but NEVER replaces arrays (preserves goals, art slots, custom blocks)
 function deepMerge(base, override) {
   const result = { ...base }
   for (const key of Object.keys(override)) {
-    if (override[key] && typeof override[key] === 'object' && !Array.isArray(override[key])) {
-      result[key] = deepMerge(base[key] || {}, override[key])
+    const val = override[key]
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      result[key] = deepMerge(base[key] || {}, val)
     } else {
-      result[key] = override[key]
+      result[key] = val
     }
   }
   return result
 }
 
 function reducer(state, action) {
+  // Always get fresh date inside reducer — fixes the stale TODAY bug
+  const TODAY = getToday()
+  const WEEK  = getWeekKey()
+
   switch (action.type) {
     case 'LOAD': return deepMerge(INITIAL_STATE, action.payload)
 
     case 'TOGGLE_BLOCK': {
-      const day = state.daily[TODAY] || {}
+      const day    = state.daily[TODAY] || {}
       const newDay = { ...day, [action.id]: !day[action.id] }
       const streak = { ...state.streak, days: { ...state.streak.days, [TODAY]: true } }
       return { ...state, daily: { ...state.daily, [TODAY]: newDay }, streak }
@@ -59,7 +65,7 @@ function reducer(state, action) {
 
     case 'TOGGLE_MS': {
       const cert = state.certs[action.certId] || {}
-      const ms = { ...(cert.ms || {}), [action.msIdx]: !cert.ms?.[action.msIdx] }
+      const ms   = { ...(cert.ms || {}), [action.msIdx]: !cert.ms?.[action.msIdx] }
       return { ...state, certs: { ...state.certs, [action.certId]: { ...cert, ms } } }
     }
 
@@ -95,7 +101,9 @@ function reducer(state, action) {
     }
 
     case 'TOGGLE_GOAL': {
-      const items = (state.goals[action.cat] || []).map(g => g.id === action.id ? { ...g, done: !g.done } : g)
+      const items = (state.goals[action.cat] || []).map(g =>
+        g.id === action.id ? { ...g, done: !g.done } : g
+      )
       return { ...state, goals: { ...state.goals, [action.cat]: items } }
     }
 
@@ -110,21 +118,27 @@ function reducer(state, action) {
     }
 
     case 'ADD_CUSTOM_BLOCK': {
-      const day = state.daily[TODAY] || {}
+      const day    = state.daily[TODAY] || {}
       const custom = [...(day.custom || []), action.item]
       return { ...state, daily: { ...state.daily, [TODAY]: { ...day, custom } } }
     }
 
     case 'TOGGLE_CUSTOM_BLOCK': {
-      const day = state.daily[TODAY] || {}
-      const custom = (day.custom || []).map(c => c.id === action.id ? { ...c, done: !c.done } : c)
+      const day    = state.daily[TODAY] || {}
+      const custom = (day.custom || []).map(c =>
+        c.id === action.id ? { ...c, done: !c.done } : c
+      )
       return { ...state, daily: { ...state.daily, [TODAY]: { ...day, custom } } }
     }
 
     case 'DELETE_CUSTOM_BLOCK': {
-      const day = state.daily[TODAY] || {}
+      const day    = state.daily[TODAY] || {}
       const custom = (day.custom || []).filter(c => c.id !== action.id)
       return { ...state, daily: { ...state.daily, [TODAY]: { ...day, custom } } }
+    }
+
+    case 'SET_THEME': {
+      return { ...state, theme: action.theme }
     }
 
     default: return state
@@ -132,11 +146,11 @@ function reducer(state, action) {
 }
 
 export function PlannerProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
-  const saveTimer = useRef(null)
-  const isLoaded = useRef(false)
+  const [state, dispatch]   = useReducer(reducer, INITIAL_STATE)
+  const saveTimer           = useRef(null)
+  const isLoaded            = useRef(false)
+  const unsubscribeRef      = useRef(null)   // Fix: store unsubscribe so we can clean up
 
-  // Debounced save — waits 800ms after last action before saving
   function scheduleSave(newState) {
     clearTimeout(saveTimer.current)
     saveTimer.current = setTimeout(() => {
@@ -144,16 +158,24 @@ export function PlannerProvider({ children }) {
     }, 800)
   }
 
-  // Wrap dispatch to also schedule a save
-  function dispatchAndSave(action) {
-    dispatch(action)
-  }
-
-  // Save whenever state changes (after initial load)
+  // Save after every state change — but only after initial load
   useEffect(() => {
     if (!isLoaded.current) return
     scheduleSave(state)
   }, [state])
+
+  // Apply theme to document root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', state.theme || 'light')
+  }, [state.theme])
+
+  // Cleanup Firebase listener on unmount
+  useEffect(() => {
+    return () => {
+      if (unsubscribeRef.current) unsubscribeRef.current()
+      clearTimeout(saveTimer.current)
+    }
+  }, [])
 
   async function connectFirebase(config) {
     initFirebase(config)
@@ -161,14 +183,17 @@ export function PlannerProvider({ children }) {
     if (data) {
       dispatch({ type: 'LOAD', payload: data })
     }
+    // Set isLoaded AFTER dispatch so INIT_ART_WEEK doesn't trigger a premature save
     isLoaded.current = true
     dispatch({ type: 'INIT_ART_WEEK' })
-    // Subscribe to real-time updates
-    return subscribeToData(data => dispatch({ type: 'LOAD', payload: data }))
+    // Store unsubscribe so it can be cleaned up
+    unsubscribeRef.current = subscribeToData(incoming => {
+      dispatch({ type: 'LOAD', payload: incoming })
+    })
   }
 
   return (
-    <PlannerContext.Provider value={{ state, dispatch: dispatchAndSave, connectFirebase }}>
+    <PlannerContext.Provider value={{ state, dispatch, connectFirebase }}>
       {children}
     </PlannerContext.Provider>
   )
