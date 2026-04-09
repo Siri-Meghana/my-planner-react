@@ -13,14 +13,13 @@ import Setup     from './pages/Setup'
 const FAB_PAGES = ['today', 'goals', 'certs', 'art']
 
 export default function App() {
-  const { connectFirebase } = usePlanner()
-  const [page,       setPage]       = useState('today')
-  const [isSetup,    setIsSetup]    = useState(true)
-  const [isLoading,  setIsLoading]  = useState(true)
-  const [syncStatus, setSyncStatus] = useState('off')
-  const [syncMsg,    setSyncMsg]    = useState(null)
+  const { state, dispatch, connectFirebase } = usePlanner()
+  const [page,      setPage]      = useState('today')
+  const [isSetup,   setIsSetup]   = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const [syncStatus,setSyncStatus]= useState('off')
+  const [syncMsg,   setSyncMsg]   = useState(null)
 
-  // Try auto-connect from saved config
   useEffect(() => {
     async function tryAutoConnect() {
       const saved = localStorage.getItem('myplannerFB')
@@ -31,7 +30,6 @@ export default function App() {
         await connectFirebase(config)
         setSyncStatus('live')
         setIsSetup(false)
-        // Track returning user open — anonymous, no personal data
         trackOpen()
       } catch {
         localStorage.removeItem('myplannerFB')
@@ -48,16 +46,17 @@ export default function App() {
     setTimeout(() => setSyncMsg(null), 2500)
   }, [])
 
+  // Fix Bug #5: scroll both window and main element on tab change
   function handlePageChange(newPage) {
     setPage(newPage)
     window.scrollTo(0, 0)
+    document.querySelector('main')?.scrollTo(0, 0)
   }
 
   async function handleSetupComplete() {
     setSyncStatus('live')
     flashSync('✓ Connected to Firebase')
     setIsSetup(false)
-    // Track new install — anonymous, no personal data
     trackInstall()
   }
 
@@ -77,6 +76,7 @@ export default function App() {
 
   const PAGE_MAP = { today: Today, goals: Goals, certs: Certs, art: Art, health: Health }
   const ActivePage = PAGE_MAP[page] || Today
+  const isDark = state.theme === 'dark'
 
   return (
     <div className="app-shell">
@@ -90,6 +90,8 @@ export default function App() {
         activePage={page}
         onPageChange={handlePageChange}
         syncStatus={syncStatus}
+        isDark={isDark}
+        onToggleTheme={() => dispatch({ type: 'SET_THEME', theme: isDark ? 'light' : 'dark' })}
       />
 
       <main className="page-content">
@@ -97,10 +99,10 @@ export default function App() {
       </main>
 
       {FAB_PAGES.includes(page) && (
-        <button className="fab" onClick={() => {
-          // Dispatch a custom event that the active page listens to
-          window.dispatchEvent(new CustomEvent('fab-click', { detail: page }))
-        }}>+</button>
+        <button
+          className="fab"
+          onClick={() => window.dispatchEvent(new CustomEvent('fab-click', { detail: page }))}
+        >+</button>
       )}
 
       <BottomNav activePage={page} onPageChange={handlePageChange} />
