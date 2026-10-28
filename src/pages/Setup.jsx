@@ -3,33 +3,35 @@ import { usePlanner } from '../context/PlannerContext'
 
 export default function Setup({ onComplete }) {
   const { connectFirebase } = usePlanner()
-  const [apiKey,    setApiKey]    = useState('')
-  const [projectId, setProjectId] = useState('')
-  const [appId,     setAppId]     = useState('')
-  const [loading,   setLoading]   = useState(false)
-  const [error,     setError]     = useState('')
+  const [apiKey,            setApiKey]            = useState('')
+  const [projectId,         setProjectId]         = useState('')
+  const [appId,             setAppId]             = useState('')
+  const [messagingSenderId, setMessagingSenderId] = useState('')
+  const [loading,           setLoading]           = useState(false)
+  const [error,             setError]             = useState('')
 
   async function handleConnect() {
-    if (!apiKey.trim() || !projectId.trim() || !appId.trim()) {
-      setError('Please fill in all three fields.')
+    if (!apiKey.trim() || !projectId.trim() || !appId.trim() || !messagingSenderId.trim()) {
+      setError('Please fill in all four fields.')
       return
     }
     setLoading(true)
     setError('')
     try {
+      const pid = projectId.trim()
       const config = {
-        apiKey:        apiKey.trim(),
-        projectId:     projectId.trim(),
-        appId:         appId.trim(),
-        authDomain:    `${projectId.trim()}.firebaseapp.com`,
-        storageBucket: `${projectId.trim()}.appspot.com`,
-        messagingSenderId: '000000000000',
+        apiKey:            apiKey.trim(),
+        projectId:         pid,
+        appId:             appId.trim(),
+        messagingSenderId: messagingSenderId.trim(),
+        authDomain:        `${pid}.firebaseapp.com`,
+        storageBucket:     `${pid}.firebasestorage.app`,
       }
       localStorage.setItem('myplannerFB', JSON.stringify(config))
       await connectFirebase(config)
       onComplete()
     } catch (e) {
-      setError('Connection failed. Please check your config values and try again.')
+      setError('Connection failed. Double-check your 4 values, and make sure you created a Firestore database in test mode.')
       localStorage.removeItem('myplannerFB')
     } finally {
       setLoading(false)
@@ -53,13 +55,13 @@ export default function Setup({ onComplete }) {
         <div className="step-row">
           <div className="step-num">2</div>
           <div className="step-txt">
-            Click <strong>Firestore Database</strong> → Create database → Start in test mode
+            Open <strong>Firestore Database</strong> → Create database → <strong>Start in test mode</strong> → Enable
           </div>
         </div>
         <div className="step-row">
           <div className="step-num">3</div>
           <div className="step-txt">
-            Go to <strong>Project Settings → Web app (&lt;/&gt;)</strong> → Register → copy the 3 values below
+            Go to <strong>Project Settings → Your apps → Web app (&lt;/&gt;)</strong> → Register → copy the 4 values below
           </div>
         </div>
 
@@ -74,6 +76,12 @@ export default function Setup({ onComplete }) {
           placeholder="projectId  (e.g. my-planner-abc)"
           value={projectId}
           onChange={e => setProjectId(e.target.value)}
+        />
+        <input
+          className="setup-inp"
+          placeholder="messagingSenderId  (e.g. 123456789012)"
+          value={messagingSenderId}
+          onChange={e => setMessagingSenderId(e.target.value)}
         />
         <input
           className="setup-inp"
