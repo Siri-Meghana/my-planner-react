@@ -16,10 +16,10 @@ export default function Health() {
       <div className="sec" style={{ paddingTop: 18 }}>Daily Body Basics</div>
 
       <div className="hair-note">
-        <h3>🌿 Hair and skipped meals</h3>
+        <h3>🌿 The basics add up</h3>
         <p>
-          Stress raises cortisol which disrupts hair growth.{' '}
-          <strong>Eating regularly + walking daily + sleeping well</strong> is the most direct fix.
+          <strong>Eating regularly, moving daily, and sleeping well</strong>{' '}
+          do more for your energy and focus than any single big change. Small, consistent habits win.
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export default function Health() {
       </div>
 
       <div className="quote">
-        <p>"Taking care of your body is taking care of your career."</p>
+        <p>"Taking care of your body is taking care of everything else."</p>
       </div>
     </div>
   )
