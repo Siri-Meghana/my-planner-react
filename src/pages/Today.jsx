@@ -5,13 +5,13 @@ import Modal from '../components/Modal'
 
 function getGreeting() {
   const h = new Date().getHours()
-  if (h < 9)  return { text: 'Good morning', icon: '✨', msg: 'Start with breakfast and your study block.' }
-  if (h < 12) return { text: 'Morning in progress', icon: '📊', msg: 'Every module is a step closer.' }
-  if (h < 14) return { text: 'Midday check-in', icon: '🌤', msg: 'Hope you have eaten your packed lunch.' }
-  if (h < 17) return { text: 'Afternoon', icon: '💼', msg: 'Notice the tools you are using at work.' }
-  if (h < 19) return { text: 'Evening begins', icon: '🎨', msg: 'Art first. Before the brain negotiates.' }
-  if (h < 21) return { text: 'Good evening', icon: '💻', msg: 'Practice session. Build something small.' }
-  return { text: 'Winding down', icon: '🌙', msg: "Write tomorrow's one priority, then rest." }
+  if (h < 9)  return { text: 'Good morning', icon: '✨', msg: 'A fresh day. Start with something small.' }
+  if (h < 12) return { text: 'Morning in progress', icon: '🌤', msg: 'One step at a time. Keep going.' }
+  if (h < 14) return { text: 'Midday check-in', icon: '🍃', msg: 'Pause, breathe, and refuel.' }
+  if (h < 17) return { text: 'Afternoon', icon: '💪', msg: 'Stay with it. You are doing well.' }
+  if (h < 19) return { text: 'Evening begins', icon: '🌆', msg: 'Shift gears. Make time for yourself.' }
+  if (h < 21) return { text: 'Good evening', icon: '🌟', msg: 'Wind the day down on your terms.' }
+  return { text: 'Winding down', icon: '🌙', msg: "Note tomorrow's one priority, then rest." }
 }
 
 function getWeekDays() {
@@ -108,6 +108,12 @@ export default function Today() {
   const pct = totalBlocks ? Math.round((doneCount / totalBlocks) * 100) : 0
   const streakCount = Object.values(streakDays).filter(Boolean).length
 
+  // Live counts for the stat tiles — reflect the user's own blocks, not a fixed routine
+  const sectionDone = (ids) => {
+    const vis = visibleBlocks.filter(b => ids.includes(b.id))
+    return vis.filter(b => !!dayData[b.id]).length + '/' + vis.length
+  }
+
   function renderSection(ids, label) {
     const blocks = visibleBlocks.filter(b => ids.includes(b.id))
     if (!blocks.length) return null
@@ -151,10 +157,10 @@ export default function Today() {
           </div>
         </div>
         <div className="stat-row">
-          <div className="stat"><div className="stat-v" style={{color:'var(--teal)'}}>2h</div><div className="stat-l">Study</div></div>
-          <div className="stat"><div className="stat-v" style={{color:'var(--rose)'}}>45m</div><div className="stat-l">Art</div></div>
-          <div className="stat"><div className="stat-v" style={{color:'var(--walk)'}}>1h</div><div className="stat-l">Walk</div></div>
-          <div className="stat"><div className="stat-v" style={{color:'var(--cook)'}}>1.5h</div><div className="stat-l">Cook</div></div>
+          <div className="stat"><div className="stat-v" style={{color:'var(--teal)'}}>{sectionDone(MORNING_IDS)}</div><div className="stat-l">Morning</div></div>
+          <div className="stat"><div className="stat-v" style={{color:'var(--walk)'}}>{sectionDone(WORK_IDS)}</div><div className="stat-l">Work</div></div>
+          <div className="stat"><div className="stat-v" style={{color:'var(--rose)'}}>{sectionDone(EVENING_IDS)}</div><div className="stat-l">Evening</div></div>
+          <div className="stat"><div className="stat-v" style={{color:'var(--cook)'}}>{pct}%</div><div className="stat-l">Day</div></div>
         </div>
       </div>
 
