@@ -18,54 +18,47 @@ export function getWeekKey() {
 export const TODAY = getToday()
 export const WEEK  = getWeekKey()
 
+// Neutral starter schedule — a template every user can edit, hide, or add to.
 export const DEFAULT_BLOCKS = [
-  { id: 'b1',  type: 'cook',   emoji: '🍳', time: '7:30 AM · 30 min',           title: 'Cook breakfast + pack lunch',    sub: 'Both at once — efficient and calm.' },
-  { id: 'b2',  type: 'health', emoji: '🥣', time: '8:00 AM · 20 min',           title: 'Eat breakfast',                   sub: 'Sit down. No phone. Start calm.' },
-  { id: 'b3',  type: 'career', emoji: '📊', time: '8:20 AM · 75 min',           title: 'Study — Google Data Analytics',   sub: 'One module. Focused. Your future, daily.' },
-  { id: 'b4',  type: 'rest',   emoji: '🪥', time: '9:35 AM · 25 min',           title: 'Get ready for work',              sub: "Already studied. That's a win." },
-  { id: 'b5',  type: 'walk',   emoji: '🚶', time: '10:00 AM · 30 min',          title: 'Walk to work',                    sub: 'Fresh air. Move. Optional: course audio.' },
-  { id: 'b6',  type: 'work',   emoji: '💼', time: '10:30 AM – 4:00 PM · 6 hrs', title: 'Work — Data Analysis and Events', sub: 'Notice tools and patterns. Eat your packed lunch.' },
-  { id: 'b7',  type: 'walk',   emoji: '🚶', time: '4:00 PM · 30 min',           title: 'Walk home',                       sub: 'Decompress. Let work stay at work.' },
-  { id: 'b8',  type: 'art',    emoji: '🎨', time: '4:30 PM · 45 min',           title: 'Creative time',                   sub: 'Art first. Before the brain negotiates.' },
-  { id: 'b9',  type: 'cook',   emoji: '🍲', time: '5:15 PM · 40 min',           title: 'Cook dinner',                     sub: 'Music on. A ritual, not a chore.' },
-  { id: 'b10', type: 'health', emoji: '🍽', time: '5:55 PM · 25 min',           title: 'Eat dinner',                      sub: 'Proper meal. Sitting down. Non-negotiable.' },
-  { id: 'b11', type: 'career', emoji: '💻', time: '6:20 PM · 60 min',           title: 'Practice and cert projects',      sub: 'Apply what you studied. Build something small.' },
-  { id: 'b12', type: 'rest',   emoji: '🛋', time: '7:30 PM · 90 min',           title: 'Free time',                       sub: 'Watch, call someone, do nothing. Earned.' },
-  { id: 'b13', type: 'rest',   emoji: '🌙', time: '9:30 PM · 20 min',           title: 'Wind down and plan tomorrow',     sub: 'Write one priority. Prep for morning. Rest.' },
+  { id: 'b1',  type: 'health', emoji: '🌅', time: 'Morning · 10 min',   title: 'Wake & hydrate',     sub: 'Water first. Ease into the day.' },
+  { id: 'b2',  type: 'health', emoji: '🍳', time: 'Morning · 20 min',   title: 'Breakfast',          sub: 'Fuel up before anything else.' },
+  { id: 'b3',  type: 'career', emoji: '🎯', time: 'Morning · 60 min',   title: 'Focus block',        sub: 'Your most important task, first.' },
+  { id: 'b4',  type: 'rest',   emoji: '🧼', time: 'Morning · 20 min',   title: 'Get ready',          sub: 'Set yourself up for the day.' },
+  { id: 'b5',  type: 'work',   emoji: '💼', time: 'Daytime · main',     title: 'Work / main focus',  sub: 'Your core hours — stay present.' },
+  { id: 'b6',  type: 'walk',   emoji: '🚶', time: 'Evening · 30 min',   title: 'Movement',           sub: 'Walk, stretch, move your body.' },
+  { id: 'b7',  type: 'art',    emoji: '✨', time: 'Evening · 45 min',   title: 'Personal time',      sub: 'Something that is just for you.' },
+  { id: 'b8',  type: 'cook',   emoji: '🍽', time: 'Evening · 40 min',   title: 'Dinner',             sub: 'Slow down. A proper meal.' },
+  { id: 'b9',  type: 'career', emoji: '📚', time: 'Evening · 45 min',   title: 'Learn or create',    sub: 'Grow a skill or build something.' },
+  { id: 'b10', type: 'rest',   emoji: '🛋', time: 'Evening · free',     title: 'Free time',          sub: 'Rest, watch, connect. Earned.' },
+  { id: 'b11', type: 'rest',   emoji: '🌙', time: 'Night · 15 min',     title: 'Wind down',          sub: 'Plan tomorrow. Then rest.' },
 ]
 
-export const MORNING_IDS = ['b1','b2','b3','b4','b5']
-export const WORK_IDS    = ['b6']
-export const EVENING_IDS = ['b7','b8','b9','b10','b11','b12','b13']
+export const MORNING_IDS = ['b1','b2','b3','b4']
+export const WORK_IDS    = ['b5']
+export const EVENING_IDS = ['b6','b7','b8','b9','b10','b11']
 
+// Universal daily wellness basics — relatable for anyone.
 export const DEFAULT_HEALTH = [
-  { id: 'h0', emoji: '🥣', title: 'Breakfast',      sub: 'Every day. Non-negotiable.' },
-  { id: 'h1', emoji: '🥗', title: 'Packed lunch',    sub: "Eat at work. Don't skip." },
-  { id: 'h2', emoji: '🍽', title: 'Dinner',          sub: 'Cooked, sitting down.' },
-  { id: 'h3', emoji: '💧', title: '2L Water',         sub: 'Dehydration = fatigue.' },
-  { id: 'h4', emoji: '🚶', title: 'Both walks',       sub: '1hr daily = cortisol down.' },
-  { id: 'h5', emoji: '😴', title: 'Sleep by 11pm',   sub: 'Poor sleep = stress and fog.' },
-  { id: 'h6', emoji: '📵', title: 'No screens 10pm', sub: 'Protect sleep quality.' },
-  { id: 'h7', emoji: '🧘', title: '5-min check-in',  sub: 'How are you, really?' },
+  { id: 'h0', emoji: '🥣', title: 'Breakfast',      sub: 'Start the day fueled.' },
+  { id: 'h1', emoji: '🥗', title: 'Real meals',      sub: "Don't skip. Eat well." },
+  { id: 'h2', emoji: '💧', title: 'Water',           sub: 'Hydration = energy.' },
+  { id: 'h3', emoji: '🚶', title: 'Move daily',      sub: 'A walk counts.' },
+  { id: 'h4', emoji: '😴', title: 'Good sleep',      sub: 'Rest is productive.' },
+  { id: 'h5', emoji: '📵', title: 'Screen cutoff',   sub: 'Protect your sleep.' },
+  { id: 'h6', emoji: '🧘', title: 'Check in',        sub: 'How are you, really?' },
+  { id: 'h7', emoji: '☀️', title: 'Fresh air',       sub: 'Step outside once.' },
 ]
 
+// Generic creative slots — editable to fit any hobby.
 export const DEFAULT_ART = [
-  { id: 'a0', emoji: '🏺', title: 'Clay work',           sub: 'Tuesday and Thursday 4:30 PM', done: false },
-  { id: 'a1', emoji: '✍',  title: 'Calligraphy',          sub: 'Saturday morning, free flow',  done: false },
-  { id: 'a2', emoji: '🖌',  title: 'Painting',             sub: 'Any evening you feel called',  done: false },
-  { id: 'a3', emoji: '🎨', title: 'Free create — Sunday', sub: 'No rules. Whatever you feel.', done: false },
+  { id: 'a0', emoji: '🎨', title: 'Creative session', sub: 'Draw, paint, build — anything.', done: false },
+  { id: 'a1', emoji: '✍️', title: 'Write or journal',  sub: 'Put thoughts on paper.',        done: false },
+  { id: 'a2', emoji: '🎵', title: 'Music or practice', sub: 'Play, listen, or learn.',        done: false },
+  { id: 'a3', emoji: '✨', title: 'Make something',    sub: 'No rules. Whatever you feel.',   done: false },
 ]
 
-export const DEFAULT_CERTS = {
-  ga: {
-    name: 'Google Data Analytics', emoji: '📊', pct: 0, color: 'gold', hint: '~5 months at 2h/day', ms: {},
-    milestones: ['Foundations','Ask Questions','Prepare Data','Process Data','Analyze Data','Share Data','Act on Data','Capstone']
-  },
-  meta: {
-    name: 'Meta Front-End Developer', emoji: '⚛️', pct: 0, color: 'sage', hint: '~7 months at 2h/day', ms: {},
-    milestones: ['Intro to Front-End','HTML and CSS','JavaScript','React Basics','Advanced React','UX/UI Principles','Capstone']
-  }
-}
+// Ship empty — every user adds their own certs/goals.
+export const DEFAULT_CERTS = {}
 
 export const INITIAL_STATE = {
   daily:  {},
